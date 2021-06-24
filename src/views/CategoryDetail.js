@@ -73,15 +73,14 @@ function CategoryDetail(props) {
 
   useEffect(() => {
     getData()
-
   }, [page])
 
   function renderDeleteButton() {
 
-    if (userAccessToken = window.localStorage.getItem('userAccessToken')) {
+    if (userAccessToken) {
       return (
         <form>
-          <Button variant="danger" type='submit'>Delete</Button>
+          <Button color="danger" type='submit'>Delete</Button>
         </form>
       )
     }

@@ -18,8 +18,8 @@
 */
 import Category from "views/Category";
 import Login from "views/Login";
-import UpgradeToPro from "views/Upgrade.js";
 import Add from "views/Add.js"
+import Logout from "views/Logout";
 
 
 var routes = [
@@ -46,10 +46,10 @@ var routes = [
   },
   {
     pro: true,
-    path: "/upgrade",
+    path: "/Logout",
     name: "Log out",
     icon: "nc-icon nc-button-power",
-    component: UpgradeToPro,
+    component: Logout,
     layout: "/admin",
   },
 ];
