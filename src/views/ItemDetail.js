@@ -41,6 +41,7 @@ import { useParams } from "react-router";
 function ItemDetail() {
   const { id } = useParams()
   const [movie, setMovie] = useState({})
+  const userAccessToken = window.localStorage.getItem('userAccessToken')
   const [movieCategories, setMovieCategories] = useState([])
   const [selectedMovieCategories, setSelectedMoiveCategories] = useState([])
   const [loading, setLoading] = useState(<CircularProgress />)
@@ -184,17 +185,6 @@ function ItemDetail() {
     return window.location.href = `/admin/category/item/${id}`
   }
 
-  const clieckDelete = async () => {
-    const sure = window.confirm('ต้องการลบ ?')
-    if (sure === true) {
-      await axios.delete(`https://movie-search-backend.herokuapp.com/content/delete/${id}`
-        , {
-          timeout: 9000
-        })
-      alert('ลบเรียบร้อย!!')
-      return window.location.href = `/`
-    }
-  }
   if (Object.keys(movie).length > 0) {
     const renderCategory = movie.categories.map(category => {
       return category.name
@@ -208,6 +198,35 @@ function ItemDetail() {
         </>
       )
     })
+
+    const clickDelete = async () => {
+      const sure = window.confirm('ต้องการลบ ?')
+      if (sure === true) {
+        await axios.delete(`https://movie-search-backend.herokuapp.com/content/delete/${id}`
+          , {
+            timeout: 9000
+          })
+        alert('ลบเรียบร้อย!!')
+        return window.location.href = `/admin/category`
+      }
+    }
+
+    function renderButton() {
+      if (userAccessToken) {
+        return (
+          <>
+            <Button
+              className="btn-round"
+              color="primary"
+              type="submit"
+            >
+              Update Profile
+            </Button>
+            <Button className="btn-round" color="danger" onClick={clickDelete}>Delete</Button>
+          </>
+        )
+      }
+    }
 
     //serie
     function isSerieIsSerie() {
@@ -326,13 +345,7 @@ function ItemDetail() {
                   </CardHeader>
                 </Card>
                 <div className="update ml-auto mr-auto">
-                  <Button
-                    className="btn-round"
-                    color="primary"
-                    type="submit"
-                  >
-                    Update Profile
-                  </Button>
+                  {renderButton()}
                 </div>
               </Col>
               <Col md="8">
